@@ -1,13 +1,19 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: NextRequest) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "Email service not configured." }, { status: 500 });
+  }
+
+  // Instantiate inside the handler so it only runs at request time, not build time
+  const resend = new Resend(apiKey);
+
   try {
     const { name, email, phone, service, message } = await req.json();
 
-    // Basic server-side validation
+    // Server-side validation
     if (!name?.trim() || !email?.trim() || !service?.trim()) {
       return NextResponse.json(
         { error: "Name, email and service are required." },
@@ -17,10 +23,7 @@ export async function POST(req: NextRequest) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     if (!emailRegex.test(email.trim())) {
-      return NextResponse.json(
-        { error: "Invalid email address." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
     const { error } = await resend.emails.send({
@@ -78,10 +81,9 @@ export async function POST(req: NextRequest) {
                 </td>
               </tr>
             </table>
-
             <div style="margin-top: 24px; padding: 14px 16px; background: #f0fdf4; border-left: 3px solid #22c55e; border-radius: 4px;">
               <p style="margin: 0; color: #16a34a; font-size: 13px;">
-                💡 You can reply directly to this email — it will go to <strong>${email.trim()}</strong>
+                💡 Reply directly to this email — it will go to <strong>${email.trim()}</strong>
               </p>
             </div>
           </div>
