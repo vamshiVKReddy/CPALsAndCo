@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
             <section>
               <h2 className="text-lg font-bold text-slate-900 mb-2">1. Introduction</h2>
               <p>
-                LS & Company (&ldquo;we&rdquo;, &ldquo;our&rdquo;, &ldquo;us&rdquo;) is committed to protecting the privacy
+                CPALS & Co (&ldquo;we&rdquo;, &ldquo;our&rdquo;, &ldquo;us&rdquo;) is committed to protecting the privacy and confidentiality of information you provide to us. This Privacy Policy describes how we collect, use, and protect your personal information in connection with our website and services.
               </p>
             </section>
             <section>

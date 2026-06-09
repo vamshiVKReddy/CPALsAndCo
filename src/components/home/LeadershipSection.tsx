@@ -3,86 +3,130 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 
 const team = [
   {
-    name: "Partner Name",
+    initials: "CP",
+    name: "CA Partner",
     designation: "Founding Partner",
-    qualifications: "B.Com, FCA",
-    specialisation: "Audit & Assurance, Direct Taxation",
-    initials: "PN",
+    qualifications: ["FCA", "B.Com (Hons)"],
+    expertise: ["Statutory Audit", "Direct Taxation", "Business Advisory"],
+    bio: "A Fellow Member of the Institute of Chartered Accountants of India with extensive experience in statutory audit, tax advisory and financial consulting across multiple sectors.",
+    color: "blue",
   },
   {
-    name: "Partner Name",
+    initials: "AL",
+    name: "CA Partner",
     designation: "Senior Partner",
-    qualifications: "M.Com, FCA, DISA",
-    specialisation: "GST, Corporate Compliance",
-    initials: "PN",
+    qualifications: ["FCA", "M.Com", "DISA (ICAI)"],
+    expertise: ["GST & Indirect Tax", "Corporate Compliance", "LLP Advisory"],
+    bio: "Specialises in GST advisory, indirect taxation and corporate law compliance. Brings deep regulatory expertise and practical solutions to every client engagement.",
+    color: "slate",
   },
   {
-    name: "Associate Name",
+    initials: "SM",
+    name: "CA Associate",
     designation: "Senior Manager",
-    qualifications: "B.Com, ACA",
-    specialisation: "Business Advisory, Financial Reporting",
-    initials: "AN",
+    qualifications: ["ACA", "B.Com"],
+    expertise: ["Financial Reporting", "Accounting", "Management Advisory"],
+    bio: "Leads client engagements in financial reporting, management accounting and business advisory. Known for precise work and clear communication on complex financial matters.",
+    color: "blue",
   },
 ];
 
 export function LeadershipSection() {
   return (
-    <section className="py-20 lg:py-28 bg-white" aria-labelledby="leadership-heading">
+    <section className="py-24 lg:py-32 bg-white" aria-labelledby="leadership-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <FadeIn>
             <SectionLabel>Our People</SectionLabel>
           </FadeIn>
-          <FadeIn delay={0.1}>
+          <FadeIn delay={0.06}>
             <h2
               id="leadership-heading"
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4 mt-1"
             >
               Leadership Team
             </h2>
           </FadeIn>
-          <FadeIn delay={0.15}>
-            <p className="text-slate-600 text-lg leading-relaxed">
-              Experienced professionals committed to delivering high-quality
-              advisory and compliance services.
+          <FadeIn delay={0.1}>
+            <p className="text-slate-500 text-lg leading-relaxed">
+              Experienced Chartered Accountants committed to delivering
+              professional excellence in every engagement.
             </p>
           </FadeIn>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {team.map((member, i) => (
-            <FadeIn key={member.name + i} delay={0.1 + i * 0.1}>
-              <div className="group text-center">
-                {/* Avatar */}
-                <div className="relative mx-auto w-24 h-24 mb-5">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-                    <span className="text-white font-bold text-2xl">
-                      {member.initials}
-                    </span>
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-2 border-white" aria-hidden="true" />
-                </div>
+            <FadeIn key={i} delay={0.08 + i * 0.08}>
+              <div className="group relative bg-white rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:shadow-slate-900/8 transition-all duration-300 overflow-hidden">
+                {/* Top color strip */}
+                <div
+                  className={`h-1.5 ${
+                    member.color === "blue" ? "bg-gradient-to-r from-blue-500 to-blue-600" : "bg-gradient-to-r from-slate-700 to-slate-800"
+                  }`}
+                  aria-hidden="true"
+                />
 
-                <h3 className="font-bold text-slate-900 text-lg leading-tight mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-blue-600 font-medium text-sm mb-1">
-                  {member.designation}
-                </p>
-                <p className="text-slate-500 text-xs mb-3">
-                  {member.qualifications}
-                </p>
-                <div className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-100 rounded-full px-3 py-1">
-                  <span className="text-slate-600 text-xs">{member.specialisation}</span>
+                <div className="p-7">
+                  {/* Avatar + name */}
+                  <div className="flex items-start gap-4 mb-5">
+                    <div
+                      className={`w-16 h-16 rounded-xl flex items-center justify-center shrink-0 font-bold text-xl text-white ${
+                        member.color === "blue"
+                          ? "bg-gradient-to-br from-blue-500 to-blue-700"
+                          : "bg-gradient-to-br from-slate-700 to-slate-900"
+                      }`}
+                    >
+                      {member.initials}
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-slate-900 text-base leading-tight">{member.name}</h3>
+                      <p className={`font-semibold text-sm mt-0.5 ${member.color === "blue" ? "text-blue-600" : "text-slate-600"}`}>
+                        {member.designation}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {member.qualifications.map((q) => (
+                          <span
+                            key={q}
+                            className="inline-flex items-center px-2 py-0.5 bg-slate-100 text-slate-600 text-[11px] font-semibold rounded-md"
+                          >
+                            {q}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bio */}
+                  <p className="text-slate-600 text-sm leading-relaxed mb-5">{member.bio}</p>
+
+                  {/* Expertise tags */}
+                  <div className="pt-5 border-t border-slate-100">
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">Areas of Expertise</p>
+                    <div className="flex flex-wrap gap-2">
+                      {member.expertise.map((tag) => (
+                        <span
+                          key={tag}
+                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
+                            member.color === "blue"
+                              ? "bg-blue-50 text-blue-700 border-blue-100"
+                              : "bg-slate-50 text-slate-700 border-slate-200"
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </FadeIn>
           ))}
         </div>
 
-        <FadeIn delay={0.4}>
+        <FadeIn delay={0.3}>
           <p className="text-center text-slate-400 text-sm mt-10">
-            Our team is supported by qualified associates and trained professionals across service lines.
+            Supported by a team of qualified associates, article assistants and trained professionals across all service lines.
           </p>
         </FadeIn>
       </div>

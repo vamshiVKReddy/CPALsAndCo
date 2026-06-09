@@ -3,7 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "Terms of use for the LS & Company website.",
+  description: "Terms of use for the CPALS & Co website.",
   alternates: { canonical: "/terms" },
 };
 
@@ -34,7 +34,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-lg font-bold text-slate-900 mb-2">3. Intellectual Property</h2>
               <p>
-                All content on this website, including text, graphics, logos, and images, is the property of LS & Company and is protected by applicable intellectual property laws. Unauthorised reproduction or use is prohibited.
+                All content on this website, including text, graphics, logos, and images, is the property of CPALS & Co and is protected by applicable intellectual property laws. Unauthorised reproduction or use is prohibited.
               </p>
             </section>
             <section>

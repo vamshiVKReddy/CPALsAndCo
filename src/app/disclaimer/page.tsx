@@ -3,7 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 
 export const metadata: Metadata = {
   title: "Disclaimer",
-  description: "Website disclaimer of LS & Company.",
+  description: "Website disclaimer of CPALS & Co.",
   alternates: { canonical: "/disclaimer" },
 };
 
@@ -26,10 +26,10 @@ export default function DisclaimerPage() {
               Nothing on this website constitutes professional advice. The content is not a substitute for professional chartered accountancy, taxation, legal, or financial advice. You should not act or refrain from acting based on any content on this website without seeking appropriate professional advice from a qualified professional who can assess your specific circumstances.
             </p>
             <p>
-              As per the guidelines of the Bar Council of India and the Institute of Chartered Accountants of India, professionals are not permitted to solicit work or advertise. By accessing this website, you acknowledge that you are seeking information about LS & Company on your own accord, and that there has been no form of solicitation, advertisement, or inducement by LS & Company or its members.
+              As per the guidelines of the Institute of Chartered Accountants of India, professionals are not permitted to solicit work or advertise. By accessing this website, you acknowledge that you are seeking information about CPALS & Co on your own accord, and that there has been no form of solicitation, advertisement, or inducement by CPALS & Co or its members.
             </p>
             <p>
-              LS & Company shall not be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from use of or reliance on the information on this website.
+              CPALS & Co shall not be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from use of or reliance on the information on this website.
             </p>
           </div>
         </FadeIn>

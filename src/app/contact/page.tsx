@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -22,7 +23,7 @@ const contactInfo = [
   },
   {
     label: "Phone",
-    value: "+91 76708 04206  |  +91 93928 33698",
+    value: "+91 76708 04206\n+91 93928 33698",
     href: "tel:+917670804206",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
@@ -49,19 +50,6 @@ const contactInfo = [
       </svg>
     ),
   },
-];
-
-const serviceOptions = [
-  "Audit & Assurance",
-  "Direct Taxation",
-  "GST & Indirect Taxation",
-  "Accounting & Bookkeeping",
-  "Corporate Compliance",
-  "Business Advisory",
-  "Financial Reporting",
-  "Company Formation",
-  "Management Consulting",
-  "Other / General Enquiry",
 ];
 
 export default function ContactPage() {
@@ -93,6 +81,7 @@ export default function ContactPage() {
       <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+
             {/* Contact Info */}
             <div className="lg:col-span-2 space-y-5">
               <FadeIn direction="left">
@@ -109,16 +98,11 @@ export default function ContactPage() {
                             {item.label}
                           </p>
                           {item.href ? (
-                            <a
-                              href={item.href}
-                              className="text-slate-700 text-sm hover:text-blue-600 transition-colors"
-                            >
+                            <a href={item.href} className="text-slate-700 text-sm hover:text-blue-600 transition-colors whitespace-pre-line">
                               {item.value}
                             </a>
                           ) : (
-                            <p className="text-slate-700 text-sm whitespace-pre-line">
-                              {item.value}
-                            </p>
+                            <p className="text-slate-700 text-sm whitespace-pre-line">{item.value}</p>
                           )}
                         </div>
                       </div>
@@ -129,23 +113,15 @@ export default function ContactPage() {
 
               {/* Map placeholder */}
               <FadeIn direction="left" delay={0.1}>
-                <div className="bg-slate-200 rounded-2xl overflow-hidden h-48 flex items-center justify-center border border-slate-100">
-                  <div className="text-center text-slate-500">
-                    <svg className="w-8 h-8 mx-auto mb-2 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+                <div className="bg-slate-100 rounded-2xl overflow-hidden h-48 flex items-center justify-center border border-slate-200">
+                  <div className="text-center text-slate-400">
+                    <svg className="w-8 h-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                     </svg>
-                    <p className="text-sm font-medium">Google Maps</p>
-                    <p className="text-xs mt-1">Map will be embedded here</p>
+                    <p className="text-sm font-medium text-slate-500">Prakash Nagar, Hyderabad</p>
+                    <p className="text-xs mt-0.5">Telangana — 500016</p>
                   </div>
-                </div>
-              </FadeIn>
-
-              {/* Disclaimer */}
-              <FadeIn direction="left" delay={0.15}>
-                <div className="p-4 bg-amber-50 border border-amber-100 rounded-xl">
-                  <p className="text-amber-800 text-xs leading-relaxed">
-                    <strong>Note:</strong> The information shared in this enquiry form will be used solely to respond to your query. We maintain strict confidentiality of all information provided.
-                  </p>
                 </div>
               </FadeIn>
             </div>
@@ -153,123 +129,10 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="lg:col-span-3">
               <FadeIn direction="right">
-                <div className="bg-white rounded-2xl border border-slate-100 p-8">
-                  <h2 className="font-bold text-slate-900 text-lg mb-6">Send an Enquiry</h2>
-                  <form className="space-y-5" noValidate aria-label="Contact enquiry form">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label htmlFor="contact-name" className="block text-sm font-medium text-slate-700 mb-1.5">
-                          Full Name <span className="text-red-500" aria-hidden="true">*</span>
-                        </label>
-                        <input
-                          id="contact-name"
-                          type="text"
-                          name="name"
-                          autoComplete="name"
-                          required
-                          className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="contact-email" className="block text-sm font-medium text-slate-700 mb-1.5">
-                          Email Address <span className="text-red-500" aria-hidden="true">*</span>
-                        </label>
-                        <input
-                          id="contact-email"
-                          type="email"
-                          name="email"
-                          autoComplete="email"
-                          required
-                          className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                          placeholder="you@company.com"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label htmlFor="contact-phone" className="block text-sm font-medium text-slate-700 mb-1.5">
-                          Phone Number
-                        </label>
-                        <input
-                          id="contact-phone"
-                          type="tel"
-                          name="phone"
-                          autoComplete="tel"
-                          className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                          placeholder="+91 XXXXX XXXXX"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="contact-org" className="block text-sm font-medium text-slate-700 mb-1.5">
-                          Organisation
-                        </label>
-                        <input
-                          id="contact-org"
-                          type="text"
-                          name="organisation"
-                          autoComplete="organization"
-                          className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                          placeholder="Your company / organisation"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="contact-service" className="block text-sm font-medium text-slate-700 mb-1.5">
-                        Service Required <span className="text-red-500" aria-hidden="true">*</span>
-                      </label>
-                      <select
-                        id="contact-service"
-                        name="service"
-                        required
-                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-                      >
-                        <option value="">Select a service</option>
-                        {serviceOptions.map((s) => (
-                          <option key={s} value={s}>{s}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label htmlFor="contact-message" className="block text-sm font-medium text-slate-700 mb-1.5">
-                        Message <span className="text-red-500" aria-hidden="true">*</span>
-                      </label>
-                      <textarea
-                        id="contact-message"
-                        name="message"
-                        rows={5}
-                        required
-                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
-                        placeholder="Please describe your requirements or query in brief"
-                      />
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <input
-                        id="contact-consent"
-                        type="checkbox"
-                        name="consent"
-                        required
-                        className="mt-0.5 w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
-                      />
-                      <label htmlFor="contact-consent" className="text-xs text-slate-500 leading-relaxed">
-                        I consent to CPALS & Co collecting and using the above information to respond to my enquiry. I understand this information will be handled in confidence.
-                      </label>
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors text-sm"
-                    >
-                      Submit Enquiry
-                    </button>
-                  </form>
-                </div>
+                <ContactForm />
               </FadeIn>
             </div>
+
           </div>
         </div>
       </section>

@@ -6,7 +6,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 export const metadata: Metadata = {
   title: "Insights",
   description:
-    "Tax updates, GST updates, audit insights, compliance updates, and business advisory articles from LS & Company.",
+    "Tax updates, GST updates, audit insights, compliance updates, and business advisory articles from CPALS & Co.",
   alternates: { canonical: "/insights" },
 };
 
