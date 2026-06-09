@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, FormEvent } from "react";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import type { E164Number } from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber, type Value as E164Number } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
 const serviceOptions = [
