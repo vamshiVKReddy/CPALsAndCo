@@ -89,9 +89,14 @@ export function ContactForm() {
     name: false, email: false, phone: false, service: false,
   });
 
+  // Phone is considered "entered" only if there are digits beyond the country code.
+  // react-phone-number-input returns undefined (empty) or a string starting with +.
+  // A value like "+1" or "+91" with no subscriber digits is still "empty" for our purposes.
+  const phoneHasDigits = !!phone && phone.replace(/^\+\d{1,3}/, "").trim().length > 0;
+
   const phoneError = (() => {
-    if (!phone) return ""; // optional — empty is fine
-    return isValidPhoneNumber(phone) ? "" : "Enter a valid phone number for the selected country";
+    if (!phoneHasDigits) return ""; // empty or only country code — always valid
+    return isValidPhoneNumber(phone!) ? "" : "Enter a valid phone number for the selected country";
   })();
 
   const errors = {
@@ -107,7 +112,7 @@ export function ContactForm() {
 
   const isFormValid =
     !errors.name && !errors.email && !errors.service &&
-    (!phone || isValidPhoneNumber(phone));
+    (!phoneHasDigits || isValidPhoneNumber(phone!));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
@@ -128,7 +133,7 @@ export function ContactForm() {
         body: JSON.stringify({
           name: form.name.trim(),
           email: form.email.trim(),
-          phone: phone ?? "",
+          phone: phoneHasDigits ? (phone ?? "") : "",
           service: form.service,
           message: form.message.trim(),
         }),
@@ -309,7 +314,7 @@ export function ContactForm() {
                 placeholder="Enter phone number"
                 className={touched.phone && phoneError ? "PhoneInput--error" : ""}
               />
-              {touched.phone && phoneError && <ErrorMsg msg={phoneError} />}
+              {touched.phone && phoneHasDigits && phoneError && <ErrorMsg msg={phoneError} />}
             </div>
 
             {/* Service */}

@@ -77,13 +77,14 @@ export function WhyChooseSection() {
               id="why-choose-heading"
               className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4 mt-1"
             >
-              Why Choose CPALS & Co
+              Our Professional Standards
             </h2>
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="text-slate-600 text-lg leading-relaxed">
-              Our practice is defined by values that put your interests first
-              and standards that never compromise on quality.
+              Our practice is guided by the professional standards and ethical
+              obligations prescribed by the Institute of Chartered Accountants
+              of India.
             </p>
           </FadeIn>
         </div>

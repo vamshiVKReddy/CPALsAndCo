@@ -108,7 +108,7 @@ export function HeroSection() {
           >
             {[
               { label: "ICAI Registered", sublabel: "Member Firm" },
-              { label: "Comprehensive", sublabel: "Service Range" },
+              { label: "8 Service Areas", sublabel: "Professional Services" },
               { label: "Partner-Led", sublabel: "Engagements" },
               { label: "Confidential", sublabel: "& Secure" },
             ].map((item) => (

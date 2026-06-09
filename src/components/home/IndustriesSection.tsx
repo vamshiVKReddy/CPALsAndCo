@@ -113,8 +113,9 @@ export function IndustriesSection() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Cross-sector experience enables us to bring relevant industry
-              perspective and practical solutions to every engagement.
+              Our professional services extend across multiple industry sectors,
+              addressing the specific compliance and advisory requirements of
+              each sector.
             </p>
           </FadeIn>
         </div>

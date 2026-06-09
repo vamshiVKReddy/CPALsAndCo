@@ -55,7 +55,7 @@ const team = [
     designation: "Founding Partner",
     qualifications: "B.Com, FCA",
     specialisation: "Audit & Assurance, Direct Taxation",
-    bio: "A Fellow Chartered Accountant with extensive experience in statutory audit, tax advisory and business consulting across multiple industries.",
+    bio: "Fellow Member of the Institute of Chartered Accountants of India with professional experience in statutory audit, tax advisory and financial consulting.",
     initials: "PN",
   },
   {
@@ -63,7 +63,7 @@ const team = [
     designation: "Senior Partner",
     qualifications: "M.Com, FCA, DISA",
     specialisation: "GST, Corporate Compliance",
-    bio: "Specialises in GST advisory, indirect taxation, and corporate law compliance. Brings deep regulatory expertise to every client engagement.",
+    bio: "Fellow Member of ICAI with professional experience in GST advisory, indirect taxation and corporate law compliance.",
     initials: "PN",
   },
   {
@@ -71,7 +71,7 @@ const team = [
     designation: "Senior Manager",
     qualifications: "B.Com, ACA",
     specialisation: "Business Advisory, Financial Reporting",
-    bio: "Manages client relationships and engagements in the areas of financial reporting, management accounting, and business advisory services.",
+    bio: "Associate Member of ICAI engaged in financial reporting, management accounting and business advisory services.",
     initials: "AN",
   },
 ];
@@ -152,10 +152,10 @@ export default function AboutPage() {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-5">
               {[
-                { value: "10+", label: "Years of Practice", sub: "Combined experience" },
-                { value: "200+", label: "Clients Served", sub: "Across industries" },
-                { value: "10", label: "Service Lines", sub: "Comprehensive coverage" },
+                { value: "8", label: "Service Areas", sub: "Professional services" },
+                { value: "10+", label: "Industries", sub: "Sector coverage" },
                 { value: "ICAI", label: "Registered Firm", sub: "Member of ICAI" },
+                { value: "CA", label: "Qualified Team", sub: "FCA & ACA members" },
               ].map((stat) => (
                 <FadeIn key={stat.label} direction="up" delay={0.1}>
                   <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 text-center">
@@ -184,10 +184,10 @@ export default function AboutPage() {
                 </div>
                 <h2 id="vision-heading" className="text-2xl font-bold mb-3">Our Vision</h2>
                 <p className="text-blue-100 leading-relaxed">
-                  To be a trusted professional services firm recognised for our
-                  commitment to technical excellence, ethical conduct, and the
-                  meaningful value we create for clients and the communities we
-                  serve.
+                  To be a trusted professional services firm committed to
+                  technical excellence, ethical conduct, and adherence to the
+                  professional standards prescribed by the Institute of
+                  Chartered Accountants of India.
                 </p>
               </div>
             </FadeIn>

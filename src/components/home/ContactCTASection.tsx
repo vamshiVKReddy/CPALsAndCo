@@ -40,8 +40,8 @@ export function ContactCTASection() {
             </FadeIn>
             <FadeIn delay={0.2}>
               <p className="text-slate-400 text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-                Our team is ready to understand your needs and provide
-                professional guidance tailored to your business.
+                You may reach our office for a professional consultation
+                regarding your accounting, taxation or advisory requirements.
               </p>
             </FadeIn>
             <FadeIn delay={0.3}>

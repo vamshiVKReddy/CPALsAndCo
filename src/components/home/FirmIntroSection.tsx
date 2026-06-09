@@ -55,8 +55,8 @@ export function FirmIntroSection() {
                 id="firm-intro-heading"
                 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight mb-6 mt-1"
               >
-                A Practice Built on
-                <span className="block text-blue-600">Trust & Expertise</span>
+                A Chartered Accountant
+                <span className="block text-blue-600">Practice in Hyderabad</span>
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>

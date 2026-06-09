@@ -8,7 +8,7 @@ const team = [
     designation: "Founding Partner",
     qualifications: ["FCA", "B.Com (Hons)"],
     expertise: ["Statutory Audit", "Direct Taxation", "Business Advisory"],
-    bio: "A Fellow Member of the Institute of Chartered Accountants of India with extensive experience in statutory audit, tax advisory and financial consulting across multiple sectors.",
+    bio: "Fellow Member of the Institute of Chartered Accountants of India with professional experience in statutory audit, tax advisory and financial consulting.",
     color: "blue",
   },
   {
@@ -17,7 +17,7 @@ const team = [
     designation: "Senior Partner",
     qualifications: ["FCA", "M.Com", "DISA (ICAI)"],
     expertise: ["GST & Indirect Tax", "Corporate Compliance", "LLP Advisory"],
-    bio: "Specialises in GST advisory, indirect taxation and corporate law compliance. Brings deep regulatory expertise and practical solutions to every client engagement.",
+    bio: "Fellow Member of ICAI with professional experience in GST advisory, indirect taxation and corporate law compliance.",
     color: "slate",
   },
   {
@@ -26,7 +26,7 @@ const team = [
     designation: "Senior Manager",
     qualifications: ["ACA", "B.Com"],
     expertise: ["Financial Reporting", "Accounting", "Management Advisory"],
-    bio: "Leads client engagements in financial reporting, management accounting and business advisory. Known for precise work and clear communication on complex financial matters.",
+    bio: "Associate Member of ICAI engaged in financial reporting, management accounting and business advisory services.",
     color: "blue",
   },
 ];
