@@ -47,7 +47,7 @@ E-invoicing requirements have been progressively extended to cover a larger segm
 - Review all pending notices and respond within stipulated timelines
 - Conduct periodic internal GST audits to identify and correct discrepancies
 
-*This article is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for specific guidance on your GST compliance requirements.*
+*For guidance on matters specific to your business or compliance requirements, please contact CPALS & Co.*
     `.trim(),
   },
   {
@@ -90,7 +90,7 @@ Taxpayers with estimated tax liability exceeding the prescribed threshold are re
 - Ensure all bank accounts and investments are correctly disclosed
 - Seek professional advice for complex income situations
 
-*This article is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for guidance specific to your tax situation.*
+*For guidance on matters specific to your business or compliance requirements, please contact CPALS & Co.*
     `.trim(),
   },
   {
@@ -136,7 +136,7 @@ All directors holding a DIN are required to complete their annual KYC (DIR-3 KYC
 - Ensure statutory registers and minute books are maintained and updated
 - Engage a professional for secretarial compliance to avoid penalties
 
-*This article is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for guidance on your specific compliance obligations.*
+*For guidance on matters specific to your business or compliance requirements, please contact CPALS & Co.*
     `.trim(),
   },
   {
@@ -184,7 +184,7 @@ Internal controls should be monitored over time to assess their quality and effe
 - No formal vendor onboarding or due diligence process
 - Absence of documented Standard Operating Procedures (SOPs)
 
-*This article is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for guidance on designing internal controls appropriate to your business.*
+*For guidance on matters specific to your business or compliance requirements, please contact CPALS & Co.*
     `.trim(),
   },
   {
@@ -228,7 +228,7 @@ A 13-week or monthly rolling cash flow forecast helps businesses anticipate shor
 
 SMEs should explore working capital credit facilities available from banks, including cash credit facilities, overdrafts, and invoice discounting. CMA (Credit Monitoring Arrangement) data preparation is typically required for such facilities.
 
-*This article is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for guidance specific to your business situation.*
+*For guidance on matters specific to your business or compliance requirements, please contact CPALS & Co.*
     `.trim(),
   },
   {
@@ -273,7 +273,7 @@ The holding period and tax rate depend on whether the shares are listed or unlis
 
 Employers are required to deduct TDS on the perquisite value at the time of exercise. For unlisted companies, obtaining a Merchant Banker certificate for FMV determination is mandatory.
 
-*This article is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for guidance on ESOP tax planning specific to your situation.*
+*For guidance on matters specific to your business or compliance requirements, please contact CPALS & Co.*
     `.trim(),
   },
 ];

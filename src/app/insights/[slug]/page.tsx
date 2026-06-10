@@ -86,11 +86,8 @@ export default async function ArticlePage(
               );
             }
             if (line.startsWith("*") && line.endsWith("*")) {
-              return (
-                <p key={i} className="text-slate-400 text-sm italic mt-8 pt-6 border-t border-slate-100">
-                  {line.replace(/^\*|\*$/g, "")}
-                </p>
-              );
+              // Skip the inline guidance line — it's shown in the footer box instead
+              return null;
             }
             if (line.trim() === "") return null;
             return (
@@ -126,7 +123,8 @@ export default async function ArticlePage(
         {/* Disclaimer */}
         <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-xl">
           <p className="text-slate-400 text-xs leading-relaxed">
-            The content on this page is for general informational purposes only and does not constitute professional advice. Please consult a qualified Chartered Accountant before acting on any information contained herein.
+            For guidance on matters specific to your business or compliance requirements, please{" "}
+            <a href="/contact" className="text-blue-500 hover:underline">contact CPALS & Co</a>.
           </p>
         </div>
       </div>
