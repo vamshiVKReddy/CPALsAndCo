@@ -164,7 +164,7 @@ export function Footer() {
             </div>
           </div>
           <p className="mt-3 text-xs text-slate-600 text-center sm:text-left">
-            The information provided on this website is for general informational purposes only and does not constitute professional advice. Please consult a qualified professional for specific advice.
+            The information provided on this website is for general informational purposes only and does not constitute professional advice. For guidance relating to your specific circumstances, please contact CPALS & Co.
           </p>
         </div>
       </div>

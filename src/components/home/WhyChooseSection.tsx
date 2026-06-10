@@ -77,7 +77,7 @@ export function WhyChooseSection() {
               id="why-choose-heading"
               className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4 mt-1"
             >
-              Our Professional Standards
+              Our Professional Approach
             </h2>
           </FadeIn>
           <FadeIn delay={0.1}>

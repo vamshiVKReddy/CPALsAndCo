@@ -20,15 +20,6 @@ const team = [
     bio: "Fellow Member of ICAI with professional experience in GST advisory, indirect taxation and corporate law compliance.",
     color: "slate",
   },
-  {
-    initials: "SM",
-    name: "CA Associate",
-    designation: "Senior Manager",
-    qualifications: ["ACA", "B.Com"],
-    expertise: ["Financial Reporting", "Accounting", "Management Advisory"],
-    bio: "Associate Member of ICAI engaged in financial reporting, management accounting and business advisory services.",
-    color: "blue",
-  },
 ];
 
 export function LeadershipSection() {
@@ -55,7 +46,7 @@ export function LeadershipSection() {
           </FadeIn>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {team.map((member, i) => (
             <FadeIn key={i} delay={0.08 + i * 0.08}>
               <div className="group relative bg-white rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:shadow-slate-900/8 transition-all duration-300 overflow-hidden">

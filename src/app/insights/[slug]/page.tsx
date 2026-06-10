@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articles, categoryColors, accentColors } from "../articles";
+import { articles, categoryColors } from "../articles";
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
@@ -20,6 +20,140 @@ export async function generateMetadata(
   };
 }
 
+/* ── Inline bold renderer: **text** → <strong> ───────────────────── */
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
+/* ── Table renderer ───────────────────────────────────────────────── */
+function renderTable(tableLines: string[]) {
+  const rows = tableLines
+    .filter((l) => !l.match(/^\|[-| ]+\|$/)) // remove separator rows
+    .map((l) =>
+      l
+        .split("|")
+        .filter((_, i, arr) => i !== 0 && i !== arr.length - 1) // drop empty first/last
+        .map((cell) => cell.trim())
+    );
+
+  if (rows.length === 0) return null;
+  const [header, ...body] = rows;
+
+  return (
+    <div className="overflow-x-auto my-6 rounded-xl border border-slate-200">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="bg-slate-50 border-b border-slate-200">
+            {header.map((cell, i) => (
+              <th key={i} className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap">
+                {cell}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {body.map((row, ri) => (
+            <tr key={ri} className="border-b border-slate-100 last:border-0 hover:bg-slate-50/50">
+              {row.map((cell, ci) => (
+                <td key={ci} className="px-4 py-3 text-slate-600 align-top">
+                  {renderInline(cell)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ── Main content renderer ────────────────────────────────────────── */
+function renderContent(content: string) {
+  const lines = content.split("\n");
+  const elements: React.ReactNode[] = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Table block — collect all table lines
+    if (line.startsWith("|")) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].startsWith("|")) {
+        tableLines.push(lines[i]);
+        i++;
+      }
+      const table = renderTable(tableLines);
+      if (table) elements.push(<div key={`table-${i}`}>{table}</div>);
+      continue;
+    }
+
+    // H2
+    if (line.startsWith("## ")) {
+      elements.push(
+        <h2 key={i} className="text-xl font-bold text-slate-900 mt-10 mb-4 pb-2 border-b border-slate-100">
+          {line.replace("## ", "")}
+        </h2>
+      );
+      i++; continue;
+    }
+
+    // Bold standalone line = H3
+    if (line.startsWith("**") && line.endsWith("**") && !line.slice(2, -2).includes("**")) {
+      elements.push(
+        <h3 key={i} className="font-bold text-slate-800 mt-6 mb-2 text-base">
+          {line.slice(2, -2)}
+        </h3>
+      );
+      i++; continue;
+    }
+
+    // List item
+    if (line.startsWith("- ")) {
+      const listItems: string[] = [];
+      while (i < lines.length && lines[i].startsWith("- ")) {
+        listItems.push(lines[i].replace("- ", ""));
+        i++;
+      }
+      elements.push(
+        <ul key={`ul-${i}`} className="my-4 space-y-2">
+          {listItems.map((item, li) => (
+            <li key={li} className="flex items-start gap-2 text-slate-600">
+              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" aria-hidden="true" />
+              <span>{renderInline(item)}</span>
+            </li>
+          ))}
+        </ul>
+      );
+      continue;
+    }
+
+    // Italic disclaimer line (skip — shown in footer box)
+    if (line.startsWith("*") && line.endsWith("*") && !line.startsWith("**")) {
+      i++; continue;
+    }
+
+    // Empty line
+    if (line.trim() === "") { i++; continue; }
+
+    // Regular paragraph
+    elements.push(
+      <p key={i} className="text-slate-600 leading-relaxed mb-4">
+        {renderInline(line)}
+      </p>
+    );
+    i++;
+  }
+
+  return elements;
+}
+
 export default async function ArticlePage(
   props: { params: Promise<{ slug: string }> }
 ) {
@@ -27,12 +161,9 @@ export default async function ArticlePage(
   const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
-  // Convert plain markdown-style content to paragraphs and headings
-  const lines = article.content.split("\n");
-
   return (
     <div className="bg-white">
-      {/* Article Hero */}
+      {/* Hero */}
       <div className="bg-slate-900 pt-32 pb-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
@@ -60,43 +191,9 @@ export default async function ArticlePage(
         </div>
       </div>
 
-      {/* Article Content */}
+      {/* Content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="prose prose-slate prose-lg max-w-none">
-          {lines.map((line, i) => {
-            if (line.startsWith("## ")) {
-              return (
-                <h2 key={i} className="text-xl font-bold text-slate-900 mt-10 mb-4">
-                  {line.replace("## ", "")}
-                </h2>
-              );
-            }
-            if (line.startsWith("**") && line.endsWith("**")) {
-              return (
-                <h3 key={i} className="font-bold text-slate-900 mt-6 mb-2 text-base">
-                  {line.replace(/\*\*/g, "")}
-                </h3>
-              );
-            }
-            if (line.startsWith("- ")) {
-              return (
-                <li key={i} className="text-slate-600 leading-relaxed ml-4 list-disc mb-1">
-                  {line.replace("- ", "")}
-                </li>
-              );
-            }
-            if (line.startsWith("*") && line.endsWith("*")) {
-              // Skip the inline guidance line — it's shown in the footer box instead
-              return null;
-            }
-            if (line.trim() === "") return null;
-            return (
-              <p key={i} className="text-slate-600 leading-relaxed mb-4">
-                {line}
-              </p>
-            );
-          })}
-        </div>
+        <div>{renderContent(article.content)}</div>
 
         {/* Bottom nav */}
         <div className="mt-14 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -120,7 +217,7 @@ export default async function ArticlePage(
           </Link>
         </div>
 
-        {/* Disclaimer */}
+        {/* Footer box */}
         <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-xl">
           <p className="text-slate-400 text-xs leading-relaxed">
             For guidance on matters specific to your business or compliance requirements, please{" "}

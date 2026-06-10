@@ -260,8 +260,8 @@ export default function AboutPage() {
               </h2>
             </FadeIn>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {team.map((member, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {team.slice(0, 2).map((member, i) => (
               <FadeIn key={i} delay={0.1 * i}>
                 <div className="bg-white rounded-2xl border border-slate-100 p-7 text-center">
                   <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mx-auto mb-4">
