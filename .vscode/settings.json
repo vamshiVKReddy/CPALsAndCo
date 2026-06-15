@@ -5,6 +5,7 @@
     ],
     "kiroAgent.trustedTools": [
         "npm run build 2>&1",
-        "npm run dev"
+        "npm run dev",
+        "npm run build"
     ]
 }
