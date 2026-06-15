@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ContactCTASection } from "@/components/home/ContactCTASection";
+import { client, isSanityConfigured } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -76,7 +79,44 @@ const team = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  let cmsTeam = null;
+  if (isSanityConfigured) {
+    cmsTeam = await client
+      .fetch(`*[_type == "leadership"] | order(displayOrder asc)`)
+      .catch(() => null);
+  }
+
+  const displayTeam =
+    cmsTeam && cmsTeam.length > 0
+      ? cmsTeam.map((member: any) => ({
+          name: member.name,
+          designation: member.designation,
+          qualifications: member.qualification || "",
+          specialisationOrMembership: member.membershipNumber
+            ? `ICAI Membership No: ${member.membershipNumber}`
+            : "",
+          bio: member.experienceSummary || "",
+          profileImage: member.profileImage,
+          initials: member.name
+            ? member.name
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()
+            : "CP",
+        }))
+      : team.map((member) => ({
+          name: member.name,
+          designation: member.designation,
+          qualifications: member.qualifications,
+          specialisationOrMembership: member.specialisation,
+          bio: member.bio,
+          profileImage: null,
+          initials: member.initials,
+        }));
+
   return (
     <>
       {/* Hero */}
@@ -261,19 +301,33 @@ export default function AboutPage() {
             </FadeIn>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {team.slice(0, 2).map((member, i) => (
+            {displayTeam.map((member: any, i: number) => (
               <FadeIn key={i} delay={0.1 * i}>
                 <div className="bg-white rounded-2xl border border-slate-100 p-7 text-center">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-white font-bold text-2xl">{member.initials}</span>
-                  </div>
+                  {member.profileImage ? (
+                    <div className="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-4 border border-slate-100 flex items-center justify-center shrink-0">
+                      <Image
+                        src={urlFor(member.profileImage).width(80).height(80).url()}
+                        alt={member.name}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mx-auto mb-4">
+                      <span className="text-white font-bold text-2xl">{member.initials}</span>
+                    </div>
+                  )}
                   <h3 className="font-bold text-slate-900 text-lg leading-tight">{member.name}</h3>
                   <p className="text-blue-600 font-medium text-sm mt-1 mb-1">{member.designation}</p>
                   <p className="text-slate-500 text-xs mb-4">{member.qualifications}</p>
                   <p className="text-slate-600 text-sm leading-relaxed">{member.bio}</p>
-                  <div className="mt-4 pt-4 border-t border-slate-100">
-                    <p className="text-slate-400 text-xs">{member.specialisation}</p>
-                  </div>
+                  {member.specialisationOrMembership && (
+                    <div className="mt-4 pt-4 border-t border-slate-100">
+                      <p className="text-slate-400 text-xs">{member.specialisationOrMembership}</p>
+                    </div>
+                  )}
                 </div>
               </FadeIn>
             ))}

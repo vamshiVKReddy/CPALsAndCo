@@ -2,24 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { articles, categoryColors, accentColors } from "./articles";
+import { articles as hardcodedArticles, categoryColors, accentColors } from "./articles";
 
-const categories = [
-  "All",
-  "Tax Updates",
-  "GST Updates",
-  "Audit Insights",
-  "Compliance Updates",
-  "Business Advisory",
-];
-
-export function InsightsClient() {
+export function InsightsClient({ initialArticles }: { initialArticles: any[] | null }) {
+  const articles = initialArticles || hardcodedArticles;
   const [activeCategory, setActiveCategory] = useState("All");
+
+  const categories = [
+    "All",
+    ...Array.from(new Set(articles.map((a: any) => a.category))),
+  ];
 
   const filtered =
     activeCategory === "All"
       ? articles
-      : articles.filter((a) => a.category === activeCategory);
+      : articles.filter((a: any) => a.category === activeCategory);
 
   return (
     <section className="py-16 bg-slate-50">

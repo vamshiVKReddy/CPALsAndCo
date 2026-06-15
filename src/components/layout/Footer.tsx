@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { client, isSanityConfigured } from "@/sanity/client";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -20,8 +21,20 @@ const services = [
   { label: "Business Advisory", href: "/services#advisory" },
 ];
 
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear();
+
+  let data = null;
+  if (isSanityConfigured) {
+    data = await client.fetch(`*[_type == "contact"][0]`).catch(() => null);
+  }
+
+  const address = data?.address || "CPALS & Co, Chartered Accountants\nPrakash Nagar, Hyderabad\nTelangana, India — 500016";
+  const phone = data?.phone || "+91 76708 04206\n+91 93928 33698";
+  const email = data?.email || "ca@cpalsandco.com";
+  const businessHours = data?.businessHours || "Mon – Sat: 9:30 AM – 6:30 PM\nSunday: Closed";
+
+  const phoneLines = phone.split('\n').map((p: string) => p.trim()).filter(Boolean);
 
   return (
     <footer className="bg-slate-900 text-slate-300">
@@ -112,9 +125,8 @@ export function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                 </svg>
-                <span>
-                  Prakash Nagar, Hyderabad<br />
-                  <span className="text-slate-500 text-xs">Telangana, India — 500016</span>
+                <span className="whitespace-pre-line">
+                  {address}
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -122,23 +134,25 @@ export function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                 </svg>
                 <div className="space-y-0.5">
-                  <a href="tel:+917670804206" className="block hover:text-white transition-colors">+91 76708 04206</a>
-                  <a href="tel:+919392833698" className="block hover:text-white transition-colors">+91 93928 33698</a>
+                  {phoneLines.map((pLine: string, idx: number) => (
+                    <a key={idx} href={`tel:${pLine.replace(/[^+\d]/g, '')}`} className="block hover:text-white transition-colors">
+                      {pLine}
+                    </a>
+                  ))}
                 </div>
               </li>
               <li className="flex items-center gap-3">
                 <svg className="w-4 h-4 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
-                <a href="mailto:ca@cpalsandco.com" className="hover:text-white transition-colors">ca@cpalsandco.com</a>
+                <a href={`mailto:${email}`} className="hover:text-white transition-colors">{email}</a>
               </li>
               <li className="flex items-start gap-3">
                 <svg className="w-4 h-4 mt-0.5 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <span>
-                  Mon–Sat: 9:30 AM – 6:30 PM<br />
-                  <span className="text-slate-500 text-xs">Sunday: Closed</span>
+                <span className="whitespace-pre-line">
+                  {businessHours}
                 </span>
               </li>
             </ul>

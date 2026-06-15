@@ -1,0 +1,22 @@
+import { defineConfig } from 'sanity'
+import { structureTool } from 'sanity/structure'
+import { schemaTypes } from './schemaTypes'
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'dummy_id'
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+
+export default defineConfig({
+  name: 'default',
+  title: 'CPALS & Co CMS',
+
+  projectId,
+  dataset,
+
+  basePath: '/studio',
+
+  plugins: [structureTool()],
+
+  schema: {
+    types: schemaTypes,
+  },
+})

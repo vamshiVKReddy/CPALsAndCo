@@ -1,5 +1,8 @@
+import Image from "next/image";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { client, isSanityConfigured } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 
 const team = [
   {
@@ -22,7 +25,47 @@ const team = [
   },
 ];
 
-export function LeadershipSection() {
+export async function LeadershipSection() {
+  let cmsTeam = null;
+  if (isSanityConfigured) {
+    cmsTeam = await client
+      .fetch(`*[_type == "leadership"] | order(displayOrder asc)`)
+      .catch(() => null);
+  }
+
+  const displayTeam =
+    cmsTeam && cmsTeam.length > 0
+      ? cmsTeam.map((member: any, idx: number) => ({
+          name: member.name,
+          designation: member.designation,
+          qualifications: member.qualification
+            ? member.qualification.split(",").map((q: string) => q.trim()).filter(Boolean)
+            : [],
+          membershipNumber: member.membershipNumber || "",
+          bio: member.experienceSummary || "",
+          profileImage: member.profileImage,
+          color: idx % 2 === 0 ? "blue" : "slate",
+          initials: member.name
+            ? member.name
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()
+            : "CP",
+        }))
+      : team.map((member) => ({
+          name: member.name,
+          designation: member.designation,
+          qualifications: member.qualifications,
+          membershipNumber: "",
+          expertise: member.expertise,
+          bio: member.bio,
+          profileImage: null,
+          color: member.color,
+          initials: member.initials,
+        }));
+
   return (
     <section className="py-24 lg:py-32 bg-white" aria-labelledby="leadership-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,7 +90,11 @@ export function LeadershipSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {team.map((member, i) => (
+          {displayTeam.map((member: {
+              name: string; designation: string; qualifications: string[];
+              membershipNumber: string; bio: string; profileImage: unknown;
+              color: string; initials: string; expertise?: string[];
+            }, i: number) => (
             <FadeIn key={i} delay={0.08 + i * 0.08}>
               <div className="group relative bg-white rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:shadow-slate-900/8 transition-all duration-300 overflow-hidden">
                 {/* Top color strip */}
@@ -61,22 +108,34 @@ export function LeadershipSection() {
                 <div className="p-7">
                   {/* Avatar + name */}
                   <div className="flex items-start gap-4 mb-5">
-                    <div
-                      className={`w-16 h-16 rounded-xl flex items-center justify-center shrink-0 font-bold text-xl text-white ${
-                        member.color === "blue"
-                          ? "bg-gradient-to-br from-blue-500 to-blue-700"
-                          : "bg-gradient-to-br from-slate-700 to-slate-900"
-                      }`}
-                    >
-                      {member.initials}
-                    </div>
+                    {member.profileImage ? (
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-slate-100 flex items-center justify-center">
+                        <Image
+                          src={urlFor(member.profileImage).width(64).height(64).url()}
+                          alt={member.name}
+                          width={64}
+                          height={64}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`w-16 h-16 rounded-xl flex items-center justify-center shrink-0 font-bold text-xl text-white ${
+                          member.color === "blue"
+                            ? "bg-gradient-to-br from-blue-500 to-blue-700"
+                            : "bg-gradient-to-br from-slate-700 to-slate-900"
+                        }`}
+                      >
+                        {member.initials}
+                      </div>
+                    )}
                     <div className="min-w-0">
                       <h3 className="font-bold text-slate-900 text-base leading-tight">{member.name}</h3>
                       <p className={`font-semibold text-sm mt-0.5 ${member.color === "blue" ? "text-blue-600" : "text-slate-600"}`}>
                         {member.designation}
                       </p>
                       <div className="flex flex-wrap gap-1.5 mt-2">
-                        {member.qualifications.map((q) => (
+                        {member.qualifications.map((q: string) => (
                           <span
                             key={q}
                             className="inline-flex items-center px-2 py-0.5 bg-slate-100 text-slate-600 text-[11px] font-semibold rounded-md"
@@ -93,20 +152,34 @@ export function LeadershipSection() {
 
                   {/* Expertise tags */}
                   <div className="pt-5 border-t border-slate-100">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">Areas of Expertise</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">
+                      {member.membershipNumber ? "Membership details" : "Areas of Expertise"}
+                    </p>
                     <div className="flex flex-wrap gap-2">
-                      {member.expertise.map((tag) => (
+                      {member.membershipNumber ? (
                         <span
-                          key={tag}
                           className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
                             member.color === "blue"
                               ? "bg-blue-50 text-blue-700 border-blue-100"
                               : "bg-slate-50 text-slate-700 border-slate-200"
                           }`}
                         >
-                          {tag}
+                          ICAI No. {member.membershipNumber}
                         </span>
-                      ))}
+                      ) : (
+                        member.expertise?.map((tag: string) => (
+                          <span
+                            key={tag}
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
+                              member.color === "blue"
+                                ? "bg-blue-50 text-blue-700 border-blue-100"
+                                : "bg-slate-50 text-slate-700 border-slate-200"
+                            }`}
+                          >
+                            {tag}
+                          </span>
+                        ))
+                      )}
                     </div>
                   </div>
                 </div>

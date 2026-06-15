@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { InsightsClient } from "./InsightsClient";
+import { client, isSanityConfigured } from "@/sanity/client";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -10,10 +11,46 @@ export const metadata: Metadata = {
   alternates: { canonical: "/insights" },
 };
 
-export default function InsightsPage() {
+function getArticleColor(category: string): "emerald" | "blue" | "slate" {
+  const cat = category?.toLowerCase() || "";
+  if (cat.includes("gst") || cat.includes("advisory")) return "emerald";
+  if (cat.includes("tax") || cat.includes("audit")) return "blue";
+  return "slate";
+}
+
+export default async function InsightsPage() {
+  let cmsArticles = null;
+
+  if (isSanityConfigured) {
+    cmsArticles = await client
+      .fetch(`*[_type == "article"] | order(publishDate desc)`)
+      .catch(() => null);
+  }
+
+  const displayArticles =
+    cmsArticles && cmsArticles.length > 0
+      ? cmsArticles.map((art: Record<string, unknown>) => ({
+          slug: (art.slug as { current: string }).current,
+          title: art.title as string,
+          category: art.category as string,
+          date: art.publishDate
+            ? new Date(art.publishDate as string).toLocaleDateString("en-US", {
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC",
+              })
+            : "",
+          readTime: (art.readingTime as string) || "5 min read",
+          excerpt:
+            (art.metaDescription as string) ||
+            (art.content ? (art.content as string).slice(0, 160) + "..." : ""),
+          color: getArticleColor(art.category as string),
+          content: (art.content as string) || "",
+        }))
+      : null;
+
   return (
     <>
-      {/* Hero */}
       <section className="bg-slate-900 pt-32 pb-20" aria-labelledby="insights-hero-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
@@ -36,7 +73,7 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <InsightsClient />
+      <InsightsClient initialArticles={displayArticles} />
     </>
   );
 }

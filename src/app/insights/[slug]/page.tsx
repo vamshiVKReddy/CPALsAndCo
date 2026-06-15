@@ -2,15 +2,56 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles, categoryColors } from "../articles";
+import { client, isSanityConfigured } from "@/sanity/client";
 
-export function generateStaticParams() {
-  return articles.map((a) => ({ slug: a.slug }));
+function getArticleColor(category: string): "emerald" | "blue" | "slate" {
+  const cat = category?.toLowerCase() || "";
+  if (cat.includes("gst") || cat.includes("advisory")) {
+    return "emerald";
+  }
+  if (cat.includes("tax") || cat.includes("audit")) {
+    return "blue";
+  }
+  return "slate";
+}
+
+export async function generateStaticParams() {
+  const hardcodedParams = articles.map((a) => ({ slug: a.slug }));
+  if (!isSanityConfigured) return hardcodedParams;
+
+  const cmsSlugs = await client
+    .fetch(`*[_type == "article"]{ "slug": slug.current }`)
+    .catch(() => []);
+  const cmsParams = (cmsSlugs as { slug: string }[]).map((a) => ({ slug: a.slug }));
+
+  // Merge, deduplicate
+  const all = [...hardcodedParams, ...cmsParams];
+  const seen = new Set<string>();
+  return all.filter((s) => {
+    if (seen.has(s.slug)) return false;
+    seen.add(s.slug);
+    return true;
+  });
 }
 
 export async function generateMetadata(
   props: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await props.params;
+
+  if (isSanityConfigured) {
+    const cmsArticle = await client
+      .fetch(`*[_type == "article" && slug.current == $slug][0]`, { slug })
+      .catch(() => null);
+    if (cmsArticle) {
+      return {
+        title: cmsArticle.metaTitle || cmsArticle.title,
+        description: cmsArticle.metaDescription || (cmsArticle.content ? (cmsArticle.content as string).slice(0, 160) : ""),
+        alternates: { canonical: `/insights/${slug}` },
+      };
+    }
+  }
+
   const article = articles.find((a) => a.slug === slug);
   if (!article) return { title: "Article Not Found" };
   return {
@@ -158,7 +199,36 @@ export default async function ArticlePage(
   props: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await props.params;
-  const article = articles.find((a) => a.slug === slug);
+  
+  let cmsArticle = null;
+  if (isSanityConfigured) {
+    cmsArticle = await client
+      .fetch(`*[_type == "article" && slug.current == $slug][0]`, { slug })
+      .catch(() => null);
+  }
+
+  let article;
+  if (cmsArticle) {
+    article = {
+      slug: cmsArticle.slug.current,
+      title: cmsArticle.title,
+      category: cmsArticle.category,
+      date: cmsArticle.publishDate
+        ? new Date(cmsArticle.publishDate).toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+            timeZone: "UTC",
+          })
+        : "",
+      readTime: cmsArticle.readingTime || "5 min read",
+      excerpt: cmsArticle.metaDescription || "",
+      color: getArticleColor(cmsArticle.category),
+      content: cmsArticle.content || "",
+    };
+  } else {
+    article = articles.find((a) => a.slug === slug);
+  }
+
   if (!article) notFound();
 
   return (
