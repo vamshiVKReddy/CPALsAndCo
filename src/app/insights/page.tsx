@@ -4,6 +4,9 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { InsightsClient } from "./InsightsClient";
 import { client, isSanityConfigured } from "@/sanity/client";
 
+// Force dynamic rendering so new/edited articles appear without redeployment
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Insights",
   description:

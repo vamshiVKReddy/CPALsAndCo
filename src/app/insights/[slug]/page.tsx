@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { articles, categoryColors } from "../articles";
 import { client, isSanityConfigured } from "@/sanity/client";
 
+// Force dynamic so article edits in Sanity appear without redeployment
+export const dynamic = "force-dynamic";
+
 function getArticleColor(category: string): "emerald" | "blue" | "slate" {
   const cat = category?.toLowerCase() || "";
   if (cat.includes("gst") || cat.includes("advisory")) {

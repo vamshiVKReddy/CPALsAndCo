@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+
+// Force dynamic rendering so Sanity content updates (leadership, contact) appear live
+export const dynamic = "force-dynamic";
+
 import { HeroSection } from "@/components/home/HeroSection";
 import { FirmIntroSection } from "@/components/home/FirmIntroSection";
 import { ServicesSection } from "@/components/home/ServicesSection";

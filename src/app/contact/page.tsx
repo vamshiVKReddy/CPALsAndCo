@@ -5,6 +5,9 @@ import { ContactForm } from "@/components/contact/ContactForm";
 
 import { client, isSanityConfigured } from "@/sanity/client";
 
+// Force dynamic rendering so Sanity updates appear without redeployment
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Contact Us",
   description:

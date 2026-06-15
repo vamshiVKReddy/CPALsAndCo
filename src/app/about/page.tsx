@@ -6,6 +6,9 @@ import { ContactCTASection } from "@/components/home/ContactCTASection";
 import { client, isSanityConfigured } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
 
+// Force dynamic rendering so Sanity updates appear without redeployment
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "About Us",
   description:
