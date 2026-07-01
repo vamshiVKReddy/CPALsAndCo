@@ -26,7 +26,12 @@ export async function Footer() {
 
   let data = null;
   if (isSanityConfigured) {
-    data = await client.fetch(`*[_type == "contact"][0]`).catch(() => null);
+    // Fetch the singleton contact document by its fixed document ID
+    data = await client.fetch(`*[_type == "contact" && _id == "singletonContact"][0]`).catch(() => null);
+    // Fallback: if singleton not found, try most recently updated contact document
+    if (!data) {
+      data = await client.fetch(`*[_type == "contact"] | order(_updatedAt desc) [0]`).catch(() => null);
+    }
   }
 
   const address = data?.address || "CPALS & Co, Chartered Accountants\nPrakash Nagar, Hyderabad\nTelangana, India — 500016";

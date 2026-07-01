@@ -18,7 +18,13 @@ export const metadata: Metadata = {
 export default async function ContactPage() {
   let data = null;
   if (isSanityConfigured) {
-    data = await client.fetch(`*[_type == "contact"][0]`).catch(() => null);
+    // Fetch the singleton contact document by its fixed document ID
+    // The Studio always saves Contact Information to documentId "singletonContact"
+    data = await client.fetch(`*[_type == "contact" && _id == "singletonContact"][0]`).catch(() => null);
+    // Fallback: if singleton not found, try any contact document
+    if (!data) {
+      data = await client.fetch(`*[_type == "contact"] | order(_updatedAt desc) [0]`).catch(() => null);
+    }
   }
   
   const address = data?.address || "CPALS & Co, Chartered Accountants\nPrakash Nagar, Hyderabad\nTelangana, India — 500016";
