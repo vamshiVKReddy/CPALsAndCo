@@ -26,6 +26,7 @@ export default async function ContactPage() {
       data = await client.fetch(`*[_type == "contact"] | order(_updatedAt desc) [0]`).catch(() => null);
     }
   }
+
   
   const address = data?.address || "CPALS & Co, Chartered Accountants\nPrakash Nagar, Hyderabad\nTelangana, India — 500016";
   const phone = data?.phone || "+91 76708 04206\n+91 93928 33698";
