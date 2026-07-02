@@ -5,6 +5,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ContactCTASection } from "@/components/home/ContactCTASection";
 import { client, isSanityConfigured } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
+import { SmartText } from "@/components/ui/PortableTextRenderer";
 
 // Force dynamic rendering so Sanity updates appear without redeployment
 export const dynamic = "force-dynamic";
@@ -304,7 +305,7 @@ export default async function AboutPage() {
             </FadeIn>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {displayTeam.map((member: any, i: number) => (
+            {displayTeam.map((member: { name: string; designation: string; qualifications: string; specialisationOrMembership: string; bio: unknown; profileImage: unknown; initials: string }, i: number) => (
               <FadeIn key={i} delay={0.1 * i}>
                 <div className="bg-white rounded-2xl border border-slate-100 p-7 text-center">
                   {member.profileImage ? (
@@ -325,7 +326,7 @@ export default async function AboutPage() {
                   <h3 className="font-bold text-slate-900 text-lg leading-tight">{member.name}</h3>
                   <p className="text-blue-600 font-medium text-sm mt-1 mb-1">{member.designation}</p>
                   <p className="text-slate-500 text-xs mb-4">{member.qualifications}</p>
-                  <p className="text-slate-600 text-sm leading-relaxed">{member.bio}</p>
+                  <SmartText value={member.bio} />
                   {member.specialisationOrMembership && (
                     <div className="mt-4 pt-4 border-t border-slate-100">
                       <p className="text-slate-400 text-xs">{member.specialisationOrMembership}</p>

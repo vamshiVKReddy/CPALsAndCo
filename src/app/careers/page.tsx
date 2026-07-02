@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { client, isSanityConfigured } from "@/sanity/client";
+import { SmartText } from "@/components/ui/PortableTextRenderer";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +43,7 @@ const benefits = [
   { title: "Inclusive Environment", desc: "A respectful, collaborative workplace that values diverse perspectives and rewards merit.", icon: "🤝" },
 ];
 
-type Opening = { title: string; type: string; category: string; description: string; requirements: string[] };
+type Opening = { title: string; type: string; category: string; description: unknown; requirements: string[] };
 
 export default async function CareersPage() {
   let openings: Opening[] = staticOpenings;
@@ -165,7 +166,7 @@ export default async function CareersPage() {
                       </div>
                       <a href="#application-form" className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors">Apply</a>
                     </div>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-4">{job.description}</p>
+                      <SmartText value={job.description} className="mb-4" />
                     <div>
                       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Requirements</p>
                       <ul className="space-y-1.5">

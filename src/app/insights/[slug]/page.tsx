@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles, categoryColors } from "../articles";
 import { client, isSanityConfigured } from "@/sanity/client";
+import { PTArticleRenderer, isPortableText } from "@/components/ui/PortableTextRenderer";
 
 // Force dynamic so article edits in Sanity appear without redeployment
 export const dynamic = "force-dynamic";
@@ -49,7 +50,7 @@ export async function generateMetadata(
     if (cmsArticle) {
       return {
         title: cmsArticle.metaTitle || cmsArticle.title,
-        description: cmsArticle.metaDescription || (cmsArticle.content ? (cmsArticle.content as string).slice(0, 160) : ""),
+        description: cmsArticle.metaDescription || cmsArticle.excerpt || "",
         alternates: { canonical: `/insights/${slug}` },
       };
     }
@@ -226,7 +227,7 @@ export default async function ArticlePage(
       readTime: cmsArticle.readingTime || "5 min read",
       excerpt: cmsArticle.metaDescription || "",
       color: getArticleColor(cmsArticle.category),
-      content: cmsArticle.content || "",
+      content: cmsArticle.content ?? "",
     };
   } else {
     article = articles.find((a) => a.slug === slug);
@@ -266,7 +267,10 @@ export default async function ArticlePage(
 
       {/* Content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div>{renderContent(article.content)}</div>
+        {isPortableText(article.content)
+          ? <PTArticleRenderer value={article.content} />
+          : <div>{renderContent(String(article.content))}</div>
+        }
 
         {/* Bottom nav */}
         <div className="mt-14 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

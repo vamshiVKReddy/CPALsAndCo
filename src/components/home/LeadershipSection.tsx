@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { client, isSanityConfigured } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
+import { SmartText } from "@/components/ui/PortableTextRenderer";
 
 const team = [
   {
@@ -92,7 +93,7 @@ export async function LeadershipSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {displayTeam.map((member: {
               name: string; designation: string; qualifications: string[];
-              membershipNumber: string; bio: string; profileImage: unknown;
+              membershipNumber: string; bio: unknown; profileImage: unknown;
               color: string; initials: string; expertise?: string[];
             }, i: number) => (
             <FadeIn key={i} delay={0.08 + i * 0.08}>
@@ -148,7 +149,7 @@ export async function LeadershipSection() {
                   </div>
 
                   {/* Bio */}
-                  <p className="text-slate-600 text-sm leading-relaxed mb-5">{member.bio}</p>
+                  <SmartText value={member.bio} className="mb-5" />
 
                   {/* Expertise tags */}
                   <div className="pt-5 border-t border-slate-100">

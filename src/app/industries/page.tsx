@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ContactCTASection } from "@/components/home/ContactCTASection";
 import { client, isSanityConfigured } from "@/sanity/client";
+import { SmartText } from "@/components/ui/PortableTextRenderer";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,7 @@ const staticIndustries = [
   { name: "Startups", icon: "🚀", description: "Startups require agile, cost-effective financial and compliance support as they scale. We help early-stage companies set up proper financial systems, navigate regulatory requirements, and ensure compliance from day one.", services: ["Incorporation", "Startup India", "ESOP Structuring", "Fundraising Support", "Compliance Setup"] },
 ];
 
-type Industry = { name: string; icon: string; description: string; services: string[] };
+type Industry = { name: string; icon: string; description: unknown; services: string[] };
 
 export default async function IndustriesPage() {
   let industries: Industry[] = staticIndustries;
@@ -75,7 +76,7 @@ export default async function IndustriesPage() {
                     <div className="text-4xl shrink-0" role="img" aria-label={industry.name}>{industry.icon}</div>
                     <div className="flex-1 min-w-0">
                       <h2 className="text-xl font-bold text-slate-900 mb-2">{industry.name}</h2>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{industry.description}</p>
+                      <SmartText value={industry.description} className="mb-4" />
                       <div className="flex flex-wrap gap-2">
                         {industry.services.map((svc) => (
                           <span key={svc} className="inline-flex items-center px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-medium rounded-full">

@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ContactCTASection } from "@/components/home/ContactCTASection";
 import { client, isSanityConfigured } from "@/sanity/client";
+import { SmartText } from "@/components/ui/PortableTextRenderer";
 
 export const dynamic = "force-dynamic";
 
@@ -155,7 +156,9 @@ export default async function ServicesPage() {
                       <div className="text-4xl mb-5" role="img" aria-label={service.title}>{service.icon}</div>
                       <h2 className="text-2xl font-bold text-white mb-2">{service.title}</h2>
                       <p className={`text-sm font-medium mb-4 ${service.color === "blue" ? "text-blue-200" : "text-slate-400"}`}>{service.tagline}</p>
-                      <p className={`leading-relaxed text-sm ${service.color === "blue" ? "text-blue-100" : "text-slate-400"}`}>{service.description}</p>
+                      <div className={`leading-relaxed text-sm ${service.color === "blue" ? "text-blue-100 [&_p]:text-blue-100 [&_li]:text-blue-100 [&_strong]:text-white" : "text-slate-400 [&_p]:text-slate-400 [&_li]:text-slate-400 [&_strong]:text-white"}`}>
+                        <SmartText value={service.description} />
+                      </div>
                     </div>
                     {/* Right panel */}
                     <div className="lg:col-span-3 p-8 lg:p-10">
